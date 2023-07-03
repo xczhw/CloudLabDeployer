@@ -1,8 +1,11 @@
 import os
 
-with open('ips.txt', 'r') as f:
+with open('server_ips.txt', 'r') as f:
     ip = f.readline().strip()
     url = ip.split('@')[1]
+
+with open('client_ips.txt', 'r') as f:
+    client_ip = f.readline().strip()
 
 wrk_path = "DeathStarBench/wrk2/wrk"
 script_path = "DeathStarBench/socialNetwork/wrk2/scripts/social-network/compose-post.lua"

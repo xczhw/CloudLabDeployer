@@ -4,6 +4,7 @@ set -e
 python3 get_urls.py
 source manager_ips.sh
 source worker_ips.sh
+source client_ips.sh
 rm manager_ips.sh
 rm worker_ips.sh
 
@@ -25,4 +26,6 @@ wait
 rm join.sh
 rm deploy_worker.sh
 
-ssh -o "StrictHostKeyChecking=no" ${MANAGER_IPS} 'bash -s' < ./3_start_docker.sh
+ssh -o "StrictHostKeyChecking=no" ${CLIENT_IPS} 'bash -s' < ./3_deploy_client.sh
+
+ssh -o "StrictHostKeyChecking=no" ${MANAGER_IPS} 'bash -s' < ./4_start_docker.sh
