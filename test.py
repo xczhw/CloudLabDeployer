@@ -1,20 +1,15 @@
 import os
 
-with open('server_ips.txt', 'r') as f:
-    ip = f.readline().strip()
-    url = ip.split('@')[1]
-
 with open('client_ips.txt', 'r') as f:
-    client_ip = f.readline().strip()
+    ip = f.readline().strip()
 
 wrk_path = "DeathStarBench/wrk2/wrk"
 script_path = "DeathStarBench/socialNetwork/wrk2/scripts/social-network/compose-post.lua"
-localhost_url = "http://localhost:8080/wrk2-api/post/compose"
-internet_url = f"http://{url}:8080/wrk2-api/post/compose"
+lan_url = "http://node0:8080/wrk2-api/post/compose"
 
-default_t = 2
-default_c = 20
-default_r = 100
+default_t = 16
+default_c = 100
+default_r = 1000
 
 def get_filename(t, c, r):
     name = ""
@@ -30,36 +25,48 @@ def get_filename(t, c, r):
     
     return f"{name}result.txt"
 
+def create_if_not_exist(path):
+    import os
+    if not os.path.exists(path):
+        os.makedirs(path)
+
 
 def all_test():
     c = default_c
     t = default_t
     r = default_r
 
-    for t in range(1, 11):
-        os.system(f"ssh {ip} {wrk_path} -D exp -L -t {t} -c {c} -d 30s -s {script_path} {localhost_url} -R {r} > results/{get_filename(t, c, r)}")
-        # os.system(f"./wrk -D exp -L -t {t} -c {c} -d 30s -s ~/{script_path} {internet_url} -R {r} > results_Internet/{get_filename(t, c, r)}")
-        print('t', t)
-    t = default_t
+    print('start all test')
 
-    for c in [10, 20, 50, 100, 1000]:
-        os.system(f"ssh {ip} {wrk_path} -D exp -L -t {t} -c {c} -d 30s -s {script_path} {localhost_url} -R {r} > results/{get_filename(t, c, r)}")
-        # os.system(f"./wrk -D exp -L -t {t} -c {c} -d 30s -s ~/{script_path} {internet_url} -R {r} > results_Internet/{get_filename(t, c, r)}")
+    create_if_not_exist('results')
+
+    # for t in range(1, 11):
+    #     os.system(f"ssh {ip} {wrk_path} -D exp -L -t {t} -c {c} -d 30s -s {script_path} {lan_url} -R {r} > results/{get_filename(t, c, r)}")
+    #     # os.system(f"./wrk -D exp -L -t {t} -c {c} -d 30s -s ~/{script_path} {internet_url} -R {r} > results_Internet/{get_filename(t, c, r)}")
+    #     print('t', t)
+    # t = default_t
+
+    # for c in range(100, 1001, 100):
+    #     os.system(f"ssh {ip} {wrk_path} -D exp -L -t {t} -c {c} -d 30s -s {script_path} {lan_url} -R {r} > results/{get_filename(t, c, r)}")
+    #     # os.system(f"./wrk -D exp -L -t {t} -c {c} -d 30s -s ~/{script_path} {internet_url} -R {r} > results_Internet/{get_filename(t, c, r)}")
+    #     print('c', c)
+    # c = default_c
+
+    for c in range(100, 1001, 100):
         print('c', c)
-    c = default_c
-
-    for r in [10, 100, 300, 500, 1000, 2000]:
-        os.system(f"ssh {ip} {wrk_path} -D exp -L -t {t} -c {c} -d 30s -s {script_path} {localhost_url} -R {r} > results/{get_filename(t, c, r)}")
-        # os.system(f"./wrk -D exp -L -t {t} -c {c} -d 30s -s ~/{script_path} {internet_url} -R {r} > results_Internet/{get_filename(t, c, r)}")
-        print('r', r)
+        for r in [10, 100, 300, 500, 1000, 2000]:
+            os.system(f"ssh {ip} {wrk_path} -D exp -L -t {t} -c {c} -d 30s -s {script_path} {lan_url} -R {r} > results/{get_filename(t, c, r)}")
+            # os.system(f"./wrk -D exp -L -t {t} -c {c} -d 30s -s ~/{script_path} {internet_url} -R {r} > results_Internet/{get_filename(t, c, r)}")
+            print('r', r)
     r = default_r
 
 def default_test():
     c = default_c
     t = default_t
-    r = default_r
+    r = default_r + 500
 
-    os.system(f"ssh {ip} {wrk_path} -D exp -L -t {t} -c {c} -d 30s -s {script_path} {localhost_url} -R {r} > replica_test/{get_filename(t, c, r)}")
+    # os.system(f"ssh {ip} {wrk_path} -D exp -L -t {t} -c {c} -d 30s -s {script_path} {lan_url} -R {r} > replica_test/{get_filename(t, c, r)}")
+    os.system(f"ssh {ip} {wrk_path} -D exp -L -t {t} -c {c} -d 30s -s {script_path} {lan_url} -R {r} > replica_test/_nginx-result.txt")
 
 if __name__ == "__main__":
     # all_test()

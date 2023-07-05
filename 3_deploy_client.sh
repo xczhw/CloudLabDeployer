@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Install tools for testing
+sudo apt-get update > /dev/null
+sudo apt-get install git libssl-dev libz-dev lua5.1 luarocks iperf3 -y > /dev/null
+
+# Install lua-socket library
+sudo luarocks install luasocket > /dev/null
+
 # Clone DeathStarBench
 if [ ! -d "./DeathStarBench" ]; then
   echo "Clone DeathStarBench"
@@ -8,18 +15,7 @@ else
     echo "DeathStarBench already exists"
 fi
 
-# Run workload generator
-## make
+# Make workload generator
 echo "make wrk2"
-cd ../wrk2
-sudo make
-
-## back to socialNetwork
-cd ../socialNetwork
-
-# register users
-python3 scripts/init_social_graph.py --graph=socfb-Reed98
-
-# Compose posts
-echo "Compose posts"
-../wrk2/wrk -D exp -L -t 2 -c 100 -d 30s -s ./wrk2/scripts/social-network/compose-post.lua http://localhost:8080/wrk2-api/post/compose -R 100
+cd DeathStarBench/wrk2
+sudo make > /dev/null

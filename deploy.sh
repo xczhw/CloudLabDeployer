@@ -7,8 +7,9 @@ source worker_ips.sh
 source client_ips.sh
 rm manager_ips.sh
 rm worker_ips.sh
+rm client_ips.sh
 
-ssh ${MANAGER_IPS} 'bash -s' < ./1_deploy_manager.sh
+ssh -o "StrictHostKeyChecking=no" ${MANAGER_IPS} 'bash -s' < ./1_deploy_manager.sh
 
 echo "create join.sh"
 echo -n "sudo" > join.sh
@@ -26,6 +27,8 @@ wait
 rm join.sh
 rm deploy_worker.sh
 
+echo "deploy clients"
 ssh -o "StrictHostKeyChecking=no" ${CLIENT_IPS} 'bash -s' < ./3_deploy_client.sh
 
+echo "start docker"
 ssh -o "StrictHostKeyChecking=no" ${MANAGER_IPS} 'bash -s' < ./4_start_docker.sh

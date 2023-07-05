@@ -9,7 +9,7 @@ fi
 ## Install All Dependencies in Ubuntu
 echo "Install All Dependencies in Ubuntu"
 sudo apt-get update > /dev/null
-sudo apt-get install docker-compose python3-pip git libssl-dev libz-dev lua5.1 luarocks iperf3 -y > /dev/null
+sudo apt-get install docker-compose python3-pip git libssl-dev libz-dev lua5.1 luarocks -y > /dev/null
 # Install tools for testing
 sudo apt-get install iperf3 htop -y > /dev/null
 
