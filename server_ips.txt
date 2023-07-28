@@ -1,3 +1,3 @@
-xczhw@ms1132.utah.cloudlab.us
-xczhw@ms1143.utah.cloudlab.us
-xczhw@ms1142.utah.cloudlab.us
+xczhw@ms1040.utah.cloudlab.us
+xczhw@ms1012.utah.cloudlab.us
+xczhw@ms1004.utah.cloudlab.us

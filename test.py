@@ -1,4 +1,5 @@
 import os
+import time
 
 with open('client_ips.txt', 'r') as f:
     ip = f.readline().strip()
@@ -46,27 +47,30 @@ def all_test():
     #     print('t', t)
     # t = default_t
 
-    # for c in range(100, 1001, 100):
-    #     os.system(f"ssh {ip} {wrk_path} -D exp -L -t {t} -c {c} -d 30s -s {script_path} {lan_url} -R {r} > results/{get_filename(t, c, r)}")
-    #     # os.system(f"./wrk -D exp -L -t {t} -c {c} -d 30s -s ~/{script_path} {internet_url} -R {r} > results_Internet/{get_filename(t, c, r)}")
-    #     print('c', c)
-    # c = default_c
-
     for c in range(100, 1001, 100):
+        os.system(f"ssh {ip} {wrk_path} -D exp -L -t {t} -c {c} -d 30s -s {script_path} {lan_url} -R {r} > results/{get_filename(t, c, r)}")
+        # os.system(f"./wrk -D exp -L -t {t} -c {c} -d 30s -s ~/{script_path} {internet_url} -R {r} > results_Internet/{get_filename(t, c, r)}")
         print('c', c)
-        for r in [10, 100, 300, 500, 1000, 2000]:
-            os.system(f"ssh {ip} {wrk_path} -D exp -L -t {t} -c {c} -d 30s -s {script_path} {lan_url} -R {r} > results/{get_filename(t, c, r)}")
-            # os.system(f"./wrk -D exp -L -t {t} -c {c} -d 30s -s ~/{script_path} {internet_url} -R {r} > results_Internet/{get_filename(t, c, r)}")
-            print('r', r)
+    c = default_c
+
+    # for c in range(100, 1001, 100):
+    #     print('c', c)
+    # for r in [10, 100, 300, 500, 1000, 2000]:
+    for r in [5000, 10000, 50000]:
+        os.system(f"ssh {ip} {wrk_path} -D exp -L -t {t} -c {c} -d 30s -s {script_path} {lan_url} -R {r} > results/{get_filename(t, c, r)}")
+        # os.system(f"./wrk -D exp -L -t {t} -c {c} -d 30s -s ~/{script_path} {internet_url} -R {r} > results_Internet/{get_filename(t, c, r)}")
+        print('r', r)
+        # time.sleep(10)
+
     r = default_r
 
 def default_test():
     c = default_c
     t = default_t
-    r = default_r + 500
+    r = default_r
 
-    # os.system(f"ssh {ip} {wrk_path} -D exp -L -t {t} -c {c} -d 30s -s {script_path} {lan_url} -R {r} > replica_test/{get_filename(t, c, r)}")
-    os.system(f"ssh {ip} {wrk_path} -D exp -L -t {t} -c {c} -d 30s -s {script_path} {lan_url} -R {r} > replica_test/_nginx-result.txt")
+    os.system(f"ssh {ip} {wrk_path} -D exp -L -t {t} -c {c} -d 30s -s {script_path} {lan_url} -R {r} > replica_test/{get_filename(t, c, r)}")
+    # os.system(f"ssh {ip} {wrk_path} -D exp -L -t {t} -c {c} -d 30s -s {script_path} {lan_url} -R {r} > replica_test/_nginx-result.txt")
 
 if __name__ == "__main__":
     # all_test()

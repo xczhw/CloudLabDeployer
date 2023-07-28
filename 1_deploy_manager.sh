@@ -22,6 +22,7 @@ pip install asyncio > /dev/null
 
 # Description: Docker installation and configuration
 # if not in any docker swarm
+sudo usermod -aG docker $USER
 
 sudo docker swarm leave --force || true
 sudo docker swarm init --advertise-addr=10.10.1.1
