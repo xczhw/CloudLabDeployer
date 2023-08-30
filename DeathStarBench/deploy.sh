@@ -30,5 +30,5 @@ rm deploy_worker.sh
 echo "deploy clients"
 ssh -o "StrictHostKeyChecking=no" ${CLIENT_IPS} 'bash -s' < ./3_deploy_client.sh
 
-echo "start docker"
-ssh -o "StrictHostKeyChecking=no" ${MANAGER_IPS} 'bash -s' < ./4_start_docker.sh
+# echo "start docker"
+# ssh -o "StrictHostKeyChecking=no" ${MANAGER_IPS} 'bash -s' < ./4_start_docker.sh
