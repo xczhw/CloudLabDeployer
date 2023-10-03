@@ -1,0 +1,6 @@
+virtualenv venv
+source venv/bin/activate
+python -m pip install -r requirements.txt
+
+cd recommendations
+python -m grpc_tools.protoc -I ../protobufs --python_out=.  --grpc_python_out=. ../protobufs/recommendations.proto

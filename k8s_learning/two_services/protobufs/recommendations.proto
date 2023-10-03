@@ -1,0 +1,32 @@
+# 定义了该文件使用proto3协议取代旧的proto2版本
+syntax = "proto3";
+
+# 定义图书类目
+enum BookCategory {
+    MYSTERY = 0;
+    SCIENCE_FICTION = 1;
+    SELF_HELP = 2;
+}
+
+# 定义API请求，user_id和max_results使用了int32类型，而category使用了上面定义的BookCategory类型，可以暂时忽略
+message RecommendationRequest {
+    int32 user_id = 1;
+    BookCategory category = 2;
+    int32 max_results = 3;
+}
+
+# 定义图书推荐类型
+message BookRecommendation {
+    int32 id = 1;
+    string title = 2;
+}
+
+# 定义了微服务响应，replated关键字代表返回的是BookRecommendation的类型的列表
+message RecommendationResponse {
+    repeated BookRecommendation recommendations = 1;
+}
+
+# 可以看做是一个函数，输入为RecommendationRequest，输出为RecommendationResponse
+service Recommendations {
+    rpc Recommend (RecommendationRequest) returns (RecommendationResponse);
+}
