@@ -1,0 +1,21 @@
+#deployment.yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: deployment-demo
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: mirrorgooglecontainers/serve_hostname
+        ports:
+        - containerPort: 9376
+          protocol: TCP
